@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f9fafb;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Standard terms rendering */
+.standard-terms h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.standard-terms ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.standard-terms li {
+  line-height: 1.6;
+}
+
+.standard-terms .attribution {
+  margin-top: 1.5rem;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.standard-terms a {
+  text-decoration: underline;
+  color: #2563eb;
+}
+
+/* Print styles */
+@media print {
+  .print\:hidden {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+  }
+
+  #nda-document {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+}
