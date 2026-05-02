@@ -1,4 +1,68 @@
+# Hidden files — keep only these exceptions
 **/.*
 !.gitignore
+!.claude
 
+# ── Python / FastAPI ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+*.egg
+.eggs/
+wheels/
+*.whl
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+.pytype/
+
+# ── Next.js / Node ────────────────────────────────────────────────────────────
+node_modules/
+.next/
+out/
+.nuxt/
+
+# Build output
+*.tsbuildinfo
+next-env.d.ts
+
+# Package manager caches
+.yarn/cache
+.pnp.*
+.npm/
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+Thumbs.db
+Desktop.ini
+
+# ── Project notes (local only) ────────────────────────────────────────────────
 week_2.md
