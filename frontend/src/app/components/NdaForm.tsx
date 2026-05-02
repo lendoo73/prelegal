@@ -53,9 +53,7 @@ export default function NdaForm({ data, onChange, onSubmit }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit}
-      className="flex flex-col gap-6"
-    >
+    <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-6">
       {/* Agreement Terms */}
       <section className="flex flex-col gap-4">
         <h2 className="text-base font-semibold text-gray-800 border-b pb-2">Agreement Terms</h2>
