@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Mutual NDA",
+    "description": "A mutual non-disclosure agreement for two parties sharing confidential information.",
+    "filename": "Mutual-NDA.md"
+  },
+  {
+    "name": "Cloud Service Agreement",
+    "description": "Standard terms for providing cloud-hosted SaaS products to customers.",
+    "filename": "CSA.md"
+  },
+  {
+    "name": "Design Partner Agreement",
+    "description": "An early-access agreement for design partners providing feedback on a product.",
+    "filename": "design-partner-agreement.md"
+  },
+  {
+    "name": "Service Level Agreement",
+    "description": "Defines uptime commitments, incident response times, and service credits.",
+    "filename": "sla.md"
+  },
+  {
+    "name": "Data Processing Agreement",
+    "description": "GDPR-compliant DPA covering data processing, sub-processors, and SCCs.",
+    "filename": "DPA.md"
+  },
+  {
+    "name": "Business Associate Agreement",
+    "description": "HIPAA BAA governing the handling of protected health information (PHI).",
+    "filename": "BAA.md"
+  },
+  {
+    "name": "AI Addendum",
+    "description": "Addendum covering AI/ML service terms including input, output, and model training.",
+    "filename": "AI-Addendum.md"
+  },
+  {
+    "name": "Professional Services Agreement",
+    "description": "Terms for delivering professional or consulting services under statements of work.",
+    "filename": "psa.md"
+  },
+  {
+    "name": "Software License Agreement",
+    "description": "On-premise software license covering installation, use rights, and restrictions.",
+    "filename": "Software-License-Agreement.md"
+  },
+  {
+    "name": "Partnership Agreement",
+    "description": "Governs referral and reseller partnerships including fees and responsibilities.",
+    "filename": "Partnership-Agreement.md"
+  },
+  {
+    "name": "Pilot Agreement",
+    "description": "Short-term pilot or proof-of-concept access agreement prior to a full contract.",
+    "filename": "Pilot-Agreement.md"
+  },
+  {
+    "name": "Mutual NDA Cover Page",
+    "description": "Cover page template to pair with the Mutual NDA standard terms.",
+    "filename": "Mutual-NDA-coverpage.md"
+  }
+]
