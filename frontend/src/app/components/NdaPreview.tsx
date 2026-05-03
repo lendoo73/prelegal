@@ -75,6 +75,10 @@ export default function NdaPreview({ data, onEdit, showDownload = true }: Props)
         </div>
       )}
 
+      <div className="print:hidden rounded-md border border-amber-200 bg-amber-50 px-4 py-2 text-xs text-amber-800">
+        <strong>Draft document — for review purposes only.</strong> This AI-generated document should be reviewed by a qualified legal professional before use.
+      </div>
+
       {/* NDA document */}
       <article
         id="nda-document"

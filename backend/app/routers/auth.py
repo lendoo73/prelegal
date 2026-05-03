@@ -94,9 +94,12 @@ def signout(response: Response):
     return {"message": "Signed out"}
 
 
-@router.get("/me")
-def me(auth_token: str = Cookie(default=None)):
+def get_current_user(auth_token: str = Cookie(default=None)) -> dict:
     if not auth_token:
         raise HTTPException(status_code=401, detail="Not authenticated")
-    payload = _decode_token(auth_token)
-    return {"email": payload["email"], "id": payload["sub"]}
+    return _decode_token(auth_token)
+
+
+@router.get("/me")
+def me(user: dict = Depends(get_current_user)):
+    return {"email": user["email"], "id": user["sub"]}
