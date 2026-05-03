@@ -96,7 +96,7 @@ export default function AiChatWizard() {
   return (
     <div className="flex flex-col lg:flex-row h-full">
       {/* Chat panel */}
-      <div className="flex flex-col w-full lg:w-[420px] lg:min-w-[420px] border-r border-gray-200 bg-white">
+      <div className="print:hidden flex flex-col w-full lg:w-[420px] lg:min-w-[420px] border-r border-gray-200 bg-white">
         <div className="px-4 py-3 border-b border-gray-200 shrink-0">
           <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#888888" }}>
             AI Assistant
@@ -165,7 +165,7 @@ export default function AiChatWizard() {
       {/* Preview panel */}
       <div className="flex-1 overflow-y-auto p-6 bg-gray-50 min-h-0">
         {!isComplete && (
-          <div className="mb-4 rounded-md border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm text-yellow-800">
+          <div className="print:hidden mb-4 rounded-md border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm text-yellow-800">
             Chat with the AI to fill in the document. The download button will appear when all required information is collected.
           </div>
         )}
