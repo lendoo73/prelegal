@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from app.database import init_db
-from app.routers import auth, chat
+from app.routers import auth, chat, chat_multi
 
 load_dotenv(pathlib.Path(__file__).parent.parent / ".env")
 
@@ -20,6 +20,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Prelegal API", lifespan=lifespan)
 
 app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
+app.include_router(chat_multi.router, prefix="/api/chat", tags=["chat"])
 app.include_router(chat.router, prefix="/api/chat", tags=["chat"])
 
 

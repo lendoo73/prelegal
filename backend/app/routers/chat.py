@@ -45,6 +45,9 @@ DEFAULTS (apply these automatically if the user does not specify):
 - mndaModifications: ""
 
 COMPLETION: Set is_complete to true when you have all of: party1Name, party1Company, party2Name, party2Company, governingLaw, jurisdiction.
+When setting is_complete to true, your message MUST include: "Your document is ready for downloading."
+
+IMPORTANT: If is_complete is false, you MUST end your message with at least one specific follow-on question about the next most important missing field.
 
 You MUST respond with valid JSON in exactly this structure:
 {{
