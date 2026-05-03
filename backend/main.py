@@ -1,0 +1,32 @@
+import pathlib
+from contextlib import asynccontextmanager
+
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
+from app.database import init_db
+from app.routers import auth
+
+load_dotenv(pathlib.Path(__file__).parent.parent / ".env")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    yield
+
+
+app = FastAPI(title="Prelegal API", lifespan=lifespan)
+
+app.include_router(auth.router, prefix="/api/auth", tags=["auth"])
+
+
+@app.get("/api/health")
+def health():
+    return {"status": "ok"}
+
+
+_static_dir = pathlib.Path(__file__).parent / "static"
+if _static_dir.exists():
+    app.mount("/", StaticFiles(directory=str(_static_dir), html=True), name="static")
