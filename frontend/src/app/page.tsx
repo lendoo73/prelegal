@@ -6,10 +6,10 @@ export default function Home() {
       <header className="bg-white border-b border-gray-200 print:hidden shrink-0">
         <div className="px-4 py-4 sm:px-6">
           <h1 className="text-xl font-bold" style={{ color: "#032147" }}>
-            Mutual NDA Creator
+            Legal Document Creator
           </h1>
           <p className="text-sm" style={{ color: "#888888" }}>
-            Create a CommonPaper Mutual Non-Disclosure Agreement
+            Create CommonPaper legal agreements with AI assistance
           </p>
         </div>
       </header>

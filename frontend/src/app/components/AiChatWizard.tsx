@@ -2,8 +2,10 @@
 
 import { useState, useEffect, useRef } from "react";
 import NdaPreview from "./NdaPreview";
+import GenericDocumentPreview from "./GenericDocumentPreview";
 import { defaultFormData } from "@/types/nda";
 import type { NdaFormData } from "@/types/nda";
+import type { DocType } from "@/types/documents";
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -12,7 +14,8 @@ interface ChatMessage {
 
 export default function AiChatWizard() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [fields, setFields] = useState<NdaFormData>(defaultFormData);
+  const [docType, setDocType] = useState<DocType | null>(null);
+  const [fields, setFields] = useState<Record<string, unknown>>({});
   const [isComplete, setIsComplete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [input, setInput] = useState("");
@@ -24,22 +27,23 @@ export default function AiChatWizard() {
     const fetchGreeting = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("/api/chat/nda", {
+        const response = await fetch("/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: [], current_fields: defaultFormData }),
+          body: JSON.stringify({ messages: [], doc_type: null, current_fields: {} }),
           signal: controller.signal,
         });
         if (!response.ok) throw new Error("Failed");
         const data = await response.json();
         setMessages([{ role: "assistant", content: data.message }]);
-        setFields(data.fields);
+        if (data.doc_type) setDocType(data.doc_type as DocType);
+        setFields(data.fields ?? {});
         setIsComplete(data.is_complete);
       } catch (err) {
         if (err instanceof Error && err.name === "AbortError") return;
         setMessages([{
           role: "assistant",
-          content: "Hello! I'm here to help you create a Mutual NDA. What's the purpose of this agreement?",
+          content: "Hello! I'm here to help you create a legal agreement. What type of document do you need — for example, a Mutual NDA, Cloud Service Agreement, or Pilot Agreement?",
         }]);
       } finally {
         setIsLoading(false);
@@ -65,15 +69,20 @@ export default function AiChatWizard() {
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/chat/nda", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages, current_fields: fields }),
+        body: JSON.stringify({
+          messages: newMessages,
+          doc_type: docType,
+          current_fields: fields,
+        }),
       });
       if (!response.ok) throw new Error("Failed");
       const data = await response.json();
       setMessages((prev) => [...prev, { role: "assistant", content: data.message }]);
-      setFields(data.fields);
+      if (data.doc_type && !docType) setDocType(data.doc_type as DocType);
+      setFields(data.fields ?? {});
       setIsComplete(data.is_complete);
     } catch {
       setMessages((prev) => [
@@ -93,6 +102,13 @@ export default function AiChatWizard() {
     }
   }
 
+  // For NDA, merge generic fields with defaults so all NdaFormData keys are present
+  const ndaData: NdaFormData = docType === "Mutual NDA"
+    ? { ...defaultFormData, ...fields } as NdaFormData
+    : defaultFormData;
+
+  const previewTitle = docType ?? "Legal Document Creator";
+
   return (
     <div className="flex flex-col lg:flex-row h-full print:block print:h-auto">
       {/* Chat panel */}
@@ -101,6 +117,11 @@ export default function AiChatWizard() {
           <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: "#888888" }}>
             AI Assistant
           </p>
+          {docType && (
+            <p className="text-xs mt-0.5" style={{ color: "#209dd7" }}>
+              Creating: {docType}
+            </p>
+          )}
         </div>
 
         {/* Messages */}
@@ -166,10 +187,30 @@ export default function AiChatWizard() {
       <div className="flex-1 overflow-y-auto p-6 bg-gray-50 min-h-0 print:overflow-visible print:h-auto print:p-0 print:bg-white">
         {!isComplete && (
           <div className="print:hidden mb-4 rounded-md border border-yellow-200 bg-yellow-50 px-4 py-2 text-sm text-yellow-800">
-            Chat with the AI to fill in the document. The download button will appear when all required information is collected.
+            {docType
+              ? `Filling in your ${docType}. The download button will appear when all required information is collected.`
+              : "Tell the AI what type of legal document you need to get started."}
           </div>
         )}
-        <NdaPreview data={fields} showDownload={isComplete} />
+
+        {docType === "Mutual NDA" ? (
+          <NdaPreview data={ndaData} showDownload={isComplete} />
+        ) : docType ? (
+          <GenericDocumentPreview
+            docType={docType}
+            fields={fields}
+            showDownload={isComplete}
+          />
+        ) : (
+          <div className="flex items-center justify-center h-64 text-gray-400 text-sm italic">
+            <div className="text-center">
+              <p className="text-lg font-medium mb-2" style={{ color: "#032147" }}>
+                {previewTitle}
+              </p>
+              <p>Your document preview will appear here once you select a document type.</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
