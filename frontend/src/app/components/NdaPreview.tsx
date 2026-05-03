@@ -32,10 +32,11 @@ function SignatureRow({ label, party1, party2 }: { label: string; party1: string
 
 interface Props {
   data: NdaFormData;
-  onEdit: () => void;
+  onEdit?: () => void;
+  showDownload?: boolean;
 }
 
-export default function NdaPreview({ data, onEdit }: Props) {
+export default function NdaPreview({ data, onEdit, showDownload = true }: Props) {
   const mndaTermText =
     data.mndaTermType === "expires"
       ? `Expires ${mndaTermLabel(data)}.`
@@ -51,20 +52,28 @@ export default function NdaPreview({ data, onEdit }: Props) {
   return (
     <div className="flex flex-col gap-4">
       {/* Action bar — hidden when printing */}
-      <div className="flex items-center justify-between print:hidden">
-        <button
-          onClick={onEdit}
-          className="text-sm text-blue-600 hover:underline"
-        >
-          ← Edit
-        </button>
-        <button
-          onClick={() => window.print()}
-          className="rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
-        >
-          Download / Print PDF
-        </button>
-      </div>
+      {(onEdit !== undefined || showDownload) && (
+        <div className="flex items-center justify-between print:hidden">
+          {onEdit !== undefined ? (
+            <button
+              onClick={onEdit}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              ← Edit
+            </button>
+          ) : (
+            <div />
+          )}
+          {showDownload && (
+            <button
+              onClick={() => window.print()}
+              className="rounded-md bg-green-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
+            >
+              Download / Print PDF
+            </button>
+          )}
+        </div>
+      )}
 
       {/* NDA document */}
       <article

@@ -15,7 +15,7 @@ WORKDIR /app
 
 # Install Python dependencies (cached layer)
 COPY backend/pyproject.toml ./
-RUN uv pip install --system fastapi "uvicorn[standard]" pyjwt "passlib[bcrypt]" "bcrypt>=3.2.0,<4.0.0" python-dotenv
+RUN uv pip install --system fastapi "uvicorn[standard]" pyjwt "passlib[bcrypt]" "bcrypt>=3.2.0,<4.0.0" python-dotenv litellm
 
 # Copy backend source
 COPY backend/main.py ./
