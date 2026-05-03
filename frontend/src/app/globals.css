@@ -53,6 +53,13 @@ body {
     display: none !important;
   }
 
+  /* Break the fixed-height viewport chain so the full document flows onto multiple pages */
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+    display: block !important;
+  }
+
   body {
     background: white;
   }
