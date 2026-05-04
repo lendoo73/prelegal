@@ -8,7 +8,7 @@ The available documents are covered in the catalog.json file in the project root
 
 @catalog.json
 
-The current implementation has the V1 technical foundation in place (FastAPI backend, Docker, auth routes, scripts) with a client-side Mutual NDA form as the first document type.
+The current implementation supports all 11 Common Paper document types via an AI chat interface. Users describe what they need, the AI detects the document type, gathers fields conversationally, and shows a live preview with a download button when complete.
 
 ## Development process
 
@@ -71,21 +71,28 @@ Backend available at http://localhost:8000
 - Start/stop scripts for Mac, Linux, Windows
 - `bcrypt<4.0.0` pinned to maintain passlib compatibility
 
-### Planned (PL-5)
-- AI chat interface replaces manual form for NDA creation
+### Completed (KAN-7 / PL-5)
+- AI chat interface replaces manual form for Mutual NDA creation
+- Split-pane layout: chat on left, live NDA preview on right
 - Uses LiteLLM via OpenRouter with Cerebras inference (gpt-oss-120b model)
 - Structured outputs for reliable field extraction from conversation
 - Live preview updates as AI extracts fields from chat
 - AI greets user, asks questions conversationally, and confirms when complete
 - Download button appears when all required fields are gathered
+- 6 backend unit tests for the chat endpoint (mocked LLM)
 
-### Planned (PL-6)
+### Completed (KAN-8 / PL-6)
 - Support for all 11 document types from catalog.json
-- AI detects document type from user requests and routes accordingly
-- Dedicated preview/PDF components for Mutual NDA, Cloud Service Agreement, Pilot Agreement
-- Generic preview/PDF components for remaining document types (Design Partner, SLA, Professional Services, Partnership, Software License, DPA, BAA, AI Addendum)
-- Auto-focus chat input after sending messages
-- AI always asks follow-on questions when more information is needed
+- Two-phase AI chat: document type detection phase, then per-document field collection phase
+- AI detects document type from user requests and routes to per-document system prompt
+- If user requests an unsupported document type, AI explains and offers the closest alternative
+- Dedicated NDA preview component (`NdaPreview`) for Mutual NDA
+- Generic preview component (`GenericDocumentPreview`) for all other document types
+- AI always asks a follow-on question when more information is needed
+- AI says "Your document is ready for downloading" when all required fields are collected
+- Auto-focus chat input after every message send
+- 11 additional backend unit tests for the multi-document endpoint (17 total)
+- 69 frontend unit tests pass; frontend builds clean
 
 ### Planned (PL-7)
 - Functional user authentication with JWT tokens in HttpOnly cookies
@@ -102,4 +109,6 @@ Backend available at http://localhost:8000
 - `POST /api/auth/signin` - Sign in and receive JWT cookie
 - `POST /api/auth/signout` - Clear auth cookie
 - `GET /api/auth/me` - Get current user info
+- `POST /api/chat` - Multi-document AI chat: detection phase (doc_type=null) + field collection phase (doc_type known)
+- `POST /api/chat/nda` - Legacy Mutual NDA-specific chat endpoint (kept for backward compatibility)
 - `GET /api/health` - Health check

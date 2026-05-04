@@ -35,6 +35,10 @@ export default function GenericDocumentPreview({ docType, fields, showDownload =
         </div>
       )}
 
+      <div className="print:hidden mb-3 rounded-md border border-amber-200 bg-amber-50 px-4 py-2 text-xs text-amber-800">
+        <strong>Draft document — for review purposes only.</strong> This AI-generated document should be reviewed by a qualified legal professional before use.
+      </div>
+
       <article
         id="document-preview"
         className="rounded-lg border border-gray-200 bg-white p-8 shadow-sm text-gray-900 font-serif text-sm leading-relaxed"
